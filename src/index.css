@@ -1,0 +1,19 @@
+@import "tailwindcss";
+/* Personalización ligera para el calendario */
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
+.react-datepicker__header {
+  background-color: #f3f4f6; /* bg-gray-100 */
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.react-datepicker__day--selected {
+  background-color: #2563eb !important; /* bg-blue-600 */
+  color: white !important;
+}
+
+.react-datepicker__day--keyboard-selected {
+  background-color: #93c5fd !important; /* bg-blue-300 */
+}
