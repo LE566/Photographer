@@ -177,7 +177,7 @@ const Contact = ({ preSelectedPackage }: ContactProps) => {
                   <div className="relative">
                     <DatePicker
                       selected={startDate}
-                      onChange={(date) => setStartDate(date)}
+                      onChange={(date: Date | null) => setStartDate(date)}
                       locale="es"
                       dateFormat="dd/MM/yyyy"
                       minDate={new Date()}
