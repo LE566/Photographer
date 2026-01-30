@@ -221,7 +221,7 @@ const Contact = ({ preSelectedPackage }: ContactProps) => {
               <button 
                 type="submit" 
                 disabled={isSubmitting}
-                className={`w-full font-bold py-4 px-6 rounded-xl transition-all shadow-lg transform hover:-translate-y-1 flex items-center justify-center
+                className={`w-full font-bold py-4 px-6  rounded-xl transition-all shadow-lg transform hover:-translate-y-1 flex items-center justify-center
                     ${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#111] hover:bg-black text-white hover:shadow-xl'}
                 `}
               >
