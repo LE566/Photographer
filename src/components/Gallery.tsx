@@ -2,6 +2,14 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+// --- ZONA DE IMPORTACIÓN DE IMÁGENES REALES ---
+import img1 from '../assets/images/IMG_8264-3.jpg';
+import img2 from '../assets/images/IMG_8140.jpg';
+import img3 from '../assets/images/IMG_8205-2.jpg';
+import img4 from '../assets/images/IMG_8176.jpg';
+import img5 from '../assets/images/IMG_8149-3.jpg';
+import img6 from '../assets/images/IMG_8154.jpg';
+
 gsap.registerPlugin(ScrollTrigger);
 
 interface ImageItem {
@@ -19,14 +27,14 @@ const GalleryHorizontal = () => {
   const progressBarRef = useRef<HTMLDivElement>(null);
   const shapesRef = useRef<HTMLDivElement>(null);
 
-  // CAMBIO AQUÍ: length de 8 a 10
-  const images: ImageItem[] = Array.from({ length: 10 }).map((_, index) => ({
-    id: index,
-    src: `https://picsum.photos/seed/${index + 88}/600/800`,
-    title: `Momento ${index + 1}`,
-    category: index % 2 === 0 ? "Retrato Editorial" : "Boda & Eventos",
-    year: "2025"
-  }));
+  const images: ImageItem[] = [
+    { id: 1, src: img1, title: "Boda en Tulum", category: "Bodas", year: "2024" },
+    { id: 2, src: img2, title: "Editorial Vogue", category: "Retrato", year: "2025" },
+    { id: 3, src: img3, title: "Jardín Botánico", category: "Parejas", year: "2024" },
+    { id: 4, src: img4, title: "Campaña Nike", category: "Comercial", year: "2025" },
+    { id: 5, src: img5, title: "Boda Civil", category: "Eventos", year: "2024" },
+    { id: 6, src: img6, title: "Golden Hour", category: "Personal", year: "2023" },
+  ];
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -38,11 +46,10 @@ const GalleryHorizontal = () => {
 
       if (!section || !track) return;
 
-      // Forzar recalculo inicial
       ScrollTrigger.refresh();
 
       const getScrollAmount = () => {
-        let amount = track.scrollWidth - window.innerWidth;
+        const amount = track.scrollWidth - window.innerWidth;
         return amount > 0 ? amount : 0;
       };
 
@@ -51,13 +58,8 @@ const GalleryHorizontal = () => {
           trigger: section,
           pin: true,
           start: "top top",
-          
-          // Mantenemos tu lógica de corte al final
           end: () => `+=${getScrollAmount() - (window.innerWidth / 2)}`, 
-          
-          // Mantenemos tu scrub en 0 (respuesta inmediata)
           scrub: 0, 
-          
           invalidateOnRefresh: true,
         }
       });
@@ -67,22 +69,10 @@ const GalleryHorizontal = () => {
         ease: "none",
       });
 
-      // --- PARALLAX EFFECTS ---
-      if (bgText) {
-        tl.to(bgText, { x: -200, ease: "none" }, 0);
-      }
-
-      if (shapes) {
-        tl.to(shapes.children, {
-          x: () => -getScrollAmount() * 1.5,
-          ease: "none",
-          stagger: 0.1
-        }, 0);
-      }
-
-      if (progressBar) {
-        tl.to(progressBar, { width: "100%", ease: "none" }, 0);
-      }
+      // Parallax
+      if (bgText) tl.to(bgText, { x: -200, ease: "none" }, 0);
+      if (shapes) tl.to(shapes.children, { x: () => -getScrollAmount() * 1.5, ease: "none", stagger: 0.1 }, 0);
+      if (progressBar) tl.to(progressBar, { width: "100%", ease: "none" }, 0);
 
     }, sectionRef);
 
@@ -90,12 +80,12 @@ const GalleryHorizontal = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative h-screen bg-[#111] text-white overflow-hidden flex flex-col justify-center">
+    <section ref={sectionRef} id="gallery" className="relative h-screen bg-[#111] text-white overflow-hidden flex flex-col justify-center">
       
       {/* CAPA 0: TEXTO FONDO */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-10 select-none overflow-hidden">
         <div ref={bgTextRef} className="whitespace-nowrap text-[20vw] font-black tracking-tighter text-gray-500 leading-none">
-          PORTFOLIO — 2025 — GALLERY
+          PORTFOLIO — SELECTED
         </div>
       </div>
 
@@ -105,31 +95,35 @@ const GalleryHorizontal = () => {
             <div className="w-2 h-2 bg-white rounded-full"></div>
         </div>
         <div className="absolute bottom-[20%] left-[50%] text-6xl text-white/10 font-thin">+</div>
-        <div className="absolute top-[40%] left-[80%] w-64 h-[1px] bg-white/30"></div>
+        
+        {/* --- AQUÍ ESTABA EL ERROR CORREGIDO --- */}
+        <div className="absolute top-[40%] left-[80%] w-64 h-px bg-white/30"></div>
+        {/* ------------------------------------- */}
+
         <div className="absolute bottom-[10%] left-[10%] w-40 h-40 border-l border-t border-white/10"></div>
       </div>
 
       {/* CAPA 2: TRACK IMÁGENES */}
       <div ref={trackRef} className="flex flex-nowrap items-center h-[70vh] w-max px-10 md:px-20 gap-16 relative z-20">
         
-        {/* Intro */}
-        <div className="flex-shrink-0 w-[80vw] md:w-[25vw] flex flex-col justify-center border-l border-white/20 pl-8">
+        {/* Intro Panel */}
+        <div className="shrink-0 w-[80vw] md:w-[25vw] flex flex-col justify-center border-l border-white/20 pl-8">
           <h2 className="text-6xl font-bold leading-none mb-4">
             Obras<br/>Recientes
           </h2>
           <p className="text-gray-400 max-w-xs text-sm uppercase tracking-widest mb-8">
-            Colección seleccionada.
+            Momentos capturados con luz natural y emoción genuina.
           </p>
           <div className="flex items-center gap-4 text-xs font-mono text-gray-500">
             <span>SCROLL DOWN</span>
-            <div className="w-12 h-[1px] bg-gray-500"></div>
+            <div className="w-12 h-px bg-gray-500"></div>
             <span>EXPLORE RIGHT</span>
           </div>
         </div>
 
-        {/* FOTOS - AHORA SON 10 */}
+        {/* FOTOS */}
         {images.map((img, idx) => (
-          <div key={img.id} className="group relative flex-shrink-0 flex flex-col gap-4">
+          <div key={img.id} className="group relative shrink-0 flex flex-col gap-4">
             <div className="w-[85vw] md:w-[45vh] h-[55vh] bg-gray-900 overflow-hidden relative">
               <img 
                 src={img.src} 
@@ -154,7 +148,7 @@ const GalleryHorizontal = () => {
         ))}
 
         {/* TEXTO FINAL */}
-        <div className="flex-shrink-0 w-[50vw] md:w-[35vw] flex flex-col items-start justify-center pr-4">
+        <div className="shrink-0 w-[50vw] md:w-[35vw] flex flex-col items-start justify-center pr-4">
             <h2 className="text-6xl md:text-8xl font-black text-transparent stroke-text leading-tight" style={{ WebkitTextStroke: '2px white' }}>
                 CREAMOS<br/>ALGO<br/>JUNTOS?
             </h2>
@@ -163,12 +157,11 @@ const GalleryHorizontal = () => {
                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
             </div>
         </div>
-
       </div>
 
       {/* CAPA 3: PROGRESO */}
       <div className="absolute bottom-0 left-0 w-full h-20 border-t border-white/10 z-30 flex items-center px-10 bg-[#111]">
-        <div className="w-full h-[2px] bg-gray-800 relative overflow-hidden">
+        <div className="w-full h-0.5 bg-gray-800 relative overflow-hidden">
             <div 
                 ref={progressBarRef}
                 className="absolute top-0 left-0 h-full bg-white w-0"
@@ -178,7 +171,6 @@ const GalleryHorizontal = () => {
             SCROLL PROGRESS
         </div>
       </div>
-
     </section>
   );
 };
