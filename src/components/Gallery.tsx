@@ -58,8 +58,8 @@ const GalleryHorizontal = () => {
           trigger: section,
           pin: true,
           start: "top top",
-          end: () => `+=${getScrollAmount() - (window.innerWidth / 2)}`, 
-          scrub: 0, 
+          end: () => `+=${getScrollAmount() - (window.innerWidth / 2)}`,
+          scrub: 0,
           invalidateOnRefresh: true,
         }
       });
@@ -81,7 +81,7 @@ const GalleryHorizontal = () => {
 
   return (
     <section ref={sectionRef} id="gallery" className="relative h-screen bg-[#111] text-white overflow-hidden flex flex-col justify-center">
-      
+
       {/* CAPA 0: TEXTO FONDO */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-10 select-none overflow-hidden">
         <div ref={bgTextRef} className="whitespace-nowrap text-[20vw] font-black tracking-tighter text-gray-500 leading-none">
@@ -92,10 +92,10 @@ const GalleryHorizontal = () => {
       {/* CAPA 1: SHAPES */}
       <div ref={shapesRef} className="absolute inset-0 pointer-events-none z-10 overflow-hidden">
         <div className="absolute top-[15%] left-[20%] w-24 h-24 border border-white/20 rounded-full flex items-center justify-center">
-            <div className="w-2 h-2 bg-white rounded-full"></div>
+          <div className="w-2 h-2 bg-white rounded-full"></div>
         </div>
         <div className="absolute bottom-[20%] left-[50%] text-6xl text-white/10 font-thin">+</div>
-        
+
         {/* --- AQUÍ ESTABA EL ERROR CORREGIDO --- */}
         <div className="absolute top-[40%] left-[80%] w-64 h-px bg-white/30"></div>
         {/* ------------------------------------- */}
@@ -105,11 +105,11 @@ const GalleryHorizontal = () => {
 
       {/* CAPA 2: TRACK IMÁGENES */}
       <div ref={trackRef} className="flex flex-nowrap items-center h-[70vh] w-max px-10 md:px-20 gap-16 relative z-20">
-        
+
         {/* Intro Panel */}
         <div className="shrink-0 w-[80vw] md:w-[25vw] flex flex-col justify-center border-l border-white/20 pl-8">
           <h2 className="text-6xl font-bold leading-none mb-4">
-            Obras<br/>Recientes
+            Obras<br />Recientes
           </h2>
           <p className="text-gray-400 max-w-xs text-sm uppercase tracking-widest mb-8">
             Momentos capturados con luz natural y emoción genuina.
@@ -125,10 +125,12 @@ const GalleryHorizontal = () => {
         {images.map((img, idx) => (
           <div key={img.id} className="group relative shrink-0 flex flex-col gap-4">
             <div className="w-[85vw] md:w-[45vh] h-[55vh] bg-gray-900 overflow-hidden relative">
-              <img 
-                src={img.src} 
+              <img
+                src={img.src}
                 alt={img.title}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
+                loading={idx > 1 ? "lazy" : "eager"}
+                decoding="async"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0 will-change-transform"
               />
               <div className="absolute top-4 left-4 bg-black/50 backdrop-blur-md px-3 py-1 text-xs font-mono border border-white/20">
                 {(idx + 1).toString().padStart(2, '0')}
@@ -149,26 +151,26 @@ const GalleryHorizontal = () => {
 
         {/* TEXTO FINAL */}
         <div className="shrink-0 w-[50vw] md:w-[35vw] flex flex-col items-start justify-center pr-4">
-            <h2 className="text-6xl md:text-8xl font-black text-transparent stroke-text leading-tight" style={{ WebkitTextStroke: '2px white' }}>
-                CREAMOS<br/>ALGO<br/>JUNTOS?
-            </h2>
-            <div className="mt-8 flex items-center gap-4 animate-bounce">
-                 <span className="text-xl font-mono">VER PAQUETES ABAJO</span>
-                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
-            </div>
+          <h2 className="text-6xl md:text-8xl font-black text-transparent stroke-text leading-tight" style={{ WebkitTextStroke: '2px white' }}>
+            CREAMOS<br />ALGO<br />JUNTOS?
+          </h2>
+          <div className="mt-8 flex items-center gap-4 animate-bounce">
+            <span className="text-xl font-mono">VER PAQUETES ABAJO</span>
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+          </div>
         </div>
       </div>
 
       {/* CAPA 3: PROGRESO */}
       <div className="absolute bottom-0 left-0 w-full h-20 border-t border-white/10 z-30 flex items-center px-10 bg-[#111]">
         <div className="w-full h-0.5 bg-gray-800 relative overflow-hidden">
-            <div 
-                ref={progressBarRef}
-                className="absolute top-0 left-0 h-full bg-white w-0"
-            ></div>
+          <div
+            ref={progressBarRef}
+            className="absolute top-0 left-0 h-full bg-white w-0"
+          ></div>
         </div>
         <div className="ml-6 font-mono text-xs whitespace-nowrap text-gray-500">
-            SCROLL PROGRESS
+          SCROLL PROGRESS
         </div>
       </div>
     </section>

@@ -25,13 +25,13 @@ const Navbar = ({ setCurrentView }: NavbarProps) => {
 
   useEffect(() => {
     const nav = navRef.current;
-    
+
     if (isScrolled) {
       // --- MODO FULL (De orilla a orilla) ---
       gsap.to(nav, {
         width: "100%",           // Ancho total
         maxWidth: "100%",        // <--- IMPORTANTE: Quitamos el límite de tamaño
-        marginTop: "0rem",       
+        marginTop: "0rem",
         borderRadius: "0px",     // Esquinas cuadradas
         backgroundColor: "rgba(255, 255, 255, 0.95)",
         border: "none",          // Quitamos el borde para que se fusione mejor
@@ -60,13 +60,14 @@ const Navbar = ({ setCurrentView }: NavbarProps) => {
     { name: 'Galería', view: 'gallery' },
     { name: 'Servicios', view: 'services' },
     { name: 'Sobre Mí', view: 'about' },
+    { name: 'Área de Clientes', view: 'client-access' },
     { name: 'Contacto', view: 'contact' },
   ];
 
   return (
     // Contenedor fijo que ocupa toda la pantalla pero no bloquea clicks
     <div className="fixed top-0 left-0 w-full z-50 pointer-events-none flex justify-center">
-      <nav 
+      <nav
         ref={navRef}
         className="
           pointer-events-auto
@@ -75,25 +76,25 @@ const Navbar = ({ setCurrentView }: NavbarProps) => {
           overflow-hidden
         "
         style={{
-            // Valores iniciales (Modo Isla)
-            width: '90%',
-            maxWidth: '1200px',
-            marginTop: '1.5rem',
-            borderRadius: '100px',
-            backgroundColor: 'rgba(255, 255, 255, 0.7)',
-            border: '1px solid rgba(255,255,255,0.5)',
+          // Valores iniciales (Modo Isla)
+          width: '90%',
+          maxWidth: '1200px',
+          marginTop: '1.5rem',
+          borderRadius: '100px',
+          backgroundColor: 'rgba(255, 255, 255, 0.7)',
+          border: '1px solid rgba(255,255,255,0.5)',
         }}
       >
         <div className="w-full px-6 md:px-8">
           <div className="flex justify-between items-center h-16">
-            
+
             {/* Logo */}
             <div className="shrink-0 cursor-pointer" onClick={() => setCurrentView('hero')}>
               <h1 className="text-xl font-bold text-gray-900 tracking-tight">
                 Gus Velasco
               </h1>
             </div>
-            
+
             {/* Menú Desktop */}
             <div className="hidden md:flex items-center space-x-1">
               {navLinks.map((link) => (
@@ -105,10 +106,10 @@ const Navbar = ({ setCurrentView }: NavbarProps) => {
                   {link.name}
                 </button>
               ))}
-              
-              <button 
-                 onClick={() => setCurrentView('contact')}
-                 className="ml-4 bg-black text-white px-6 py-2.5 rounded-full text-sm font-medium hover:bg-gray-800 transition-transform hover:scale-105 active:scale-95"
+
+              <button
+                onClick={() => setCurrentView('contact')}
+                className="ml-4 bg-black text-white px-6 py-2.5 rounded-full text-sm font-medium hover:bg-gray-800 transition-transform hover:scale-105 active:scale-95"
               >
                 Reservar
               </button>
@@ -130,8 +131,8 @@ const Navbar = ({ setCurrentView }: NavbarProps) => {
         </div>
 
         {/* Menú Móvil Desplegable */}
-        <div 
-            className={`
+        <div
+          className={`
                 w-full md:hidden bg-white/50 transition-all duration-500 ease-in-out
                 ${isOpen ? 'max-h-96 opacity-100 pb-4' : 'max-h-0 opacity-0'}
             `}
